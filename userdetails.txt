@@ -1,0 +1,29 @@
+{
+  "username":"admin2",
+  "email":"newadmin@gmail.com",
+  "password":"123",
+  "role":"Admin"
+}
+
+
+{
+  "username":"client1",
+  "email":"client@gmail.com",
+  "password":"123",
+  "role":"Client"
+}
+
+{
+  "username":"auditor1",
+  "email":"auditor@gmail.com",
+  "password":"123",
+  "role":"Auditor"
+}
+
+
+{
+  "username":"finance1",
+  "email":"finance@gmail.com",
+  "password":"123",
+  "role":"Financial Analyst"
+}
