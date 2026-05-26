@@ -1,7 +1,11 @@
 from fastapi import FastAPI, HTTPException, UploadFile, File
+from fastapi.responses import HTMLResponse
+
 from database import SessionLocal, engine, Base
+
 from models.user_model import User
 from models.document_model import Document
+
 from schemas.user_schema import UserCreate, UserLogin
 
 from services.pdf_service import (
@@ -23,21 +27,88 @@ app = FastAPI()
 Base.metadata.create_all(bind=engine)
 
 
-# =========================
-# HOME
-# =========================
+# ===================================
+# HOME PAGE
+# ===================================
 
-@app.get("/")
+@app.get("/", response_class=HTMLResponse)
 def home():
 
-    return {
-        "message": "Financial Document Management API"
-    }
+    return """
+
+    <html>
+
+    <head>
+
+        <title>
+        Financial Document Management
+        </title>
+
+    </head>
+
+    <body style="
+        font-family: Arial;
+        text-align:center;
+        margin-top:100px;
+        background-color:#f4f4f4;
+    ">
+
+        <div style="
+            background:white;
+            width:60%;
+            margin:auto;
+            padding:40px;
+            border-radius:10px;
+            box-shadow:0px 0px 10px lightgray;
+        ">
+
+            <h1 style="color:#333;">
+                Financial Document Management System
+            </h1>
+
+            <p style="
+                font-size:18px;
+                color:gray;
+            ">
+
+                AI-powered Financial Document
+                Analysis using RAG, FastAPI,
+                JWT Authentication and RBAC.
+
+            </p>
+
+            <br>
+
+            <a href="/docs">
+
+                <button style="
+                    padding:15px 25px;
+                    font-size:18px;
+                    background-color:#007bff;
+                    color:white;
+                    border:none;
+                    border-radius:8px;
+                    cursor:pointer;
+                ">
+
+                    Open API Documentation
+
+                </button>
+
+            </a>
+
+        </div>
+
+    </body>
+
+    </html>
+
+    """
 
 
-# =========================
+# ===================================
 # REGISTER
-# =========================
+# ===================================
 
 @app.post("/register")
 def register(user: UserCreate):
@@ -62,9 +133,9 @@ def register(user: UserCreate):
     }
 
 
-# =========================
+# ===================================
 # LOGIN
-# =========================
+# ===================================
 
 @app.post("/login")
 def login(user: UserLogin):
@@ -99,9 +170,9 @@ def login(user: UserLogin):
     }
 
 
-# =========================
+# ===================================
 # UPLOAD DOCUMENT
-# =========================
+# ===================================
 
 @app.post("/upload-document")
 def upload_document(
@@ -137,9 +208,9 @@ def upload_document(
     }
 
 
-# =========================
+# ===================================
 # EXTRACT TEXT
-# =========================
+# ===================================
 
 @app.get("/extract-text/{file_name}")
 def extract_text(file_name: str):
@@ -153,9 +224,9 @@ def extract_text(file_name: str):
     }
 
 
-# =========================
+# ===================================
 # CREATE CHUNKS
-# =========================
+# ===================================
 
 @app.get("/create-chunks/{file_name}")
 def chunk_text(file_name: str):
@@ -171,9 +242,9 @@ def chunk_text(file_name: str):
     }
 
 
-# =========================
+# ===================================
 # STORE EMBEDDINGS
-# =========================
+# ===================================
 
 @app.get("/store-embeddings/{file_name}")
 def generate_embeddings(file_name: str):
@@ -191,9 +262,9 @@ def generate_embeddings(file_name: str):
     }
 
 
-# =========================
+# ===================================
 # RAG SEARCH
-# =========================
+# ===================================
 
 @app.post("/rag/search")
 def semantic_search(query: str):
@@ -206,9 +277,9 @@ def semantic_search(query: str):
     }
 
 
-# =========================
+# ===================================
 # GET DOCUMENTS
-# =========================
+# ===================================
 
 @app.get("/documents")
 def get_documents():
@@ -220,9 +291,9 @@ def get_documents():
     return documents
 
 
-# =========================
+# ===================================
 # DELETE DOCUMENT
-# =========================
+# ===================================
 
 @app.delete("/documents/{document_id}")
 def delete_document(document_id: int):
@@ -248,9 +319,9 @@ def delete_document(document_id: int):
     }
 
 
-# =========================
+# ===================================
 # RBAC PERMISSIONS
-# =========================
+# ===================================
 
 @app.get("/users/{email}/permissions")
 def get_permissions(email: str):
@@ -288,9 +359,9 @@ def get_permissions(email: str):
     }
 
 
-# =========================
+# ===================================
 # GET USERS
-# =========================
+# ===================================
 
 @app.get("/users")
 def get_users():
